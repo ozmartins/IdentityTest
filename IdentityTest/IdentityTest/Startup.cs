@@ -21,12 +21,11 @@ namespace IdentityTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //todo: diff
-            services.AddDbContext<IdentityTestDbContext>(options => 
+            services.AddDbContext<IdentityTestDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("IdentityTestDbContextConnection")));
+                    Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)                
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<IdentityTestDbContext>();
 
             services.AddControllersWithViews();
@@ -40,7 +39,7 @@ namespace IdentityTest
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseDatabaseErrorPage(); todo: diff
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -54,9 +53,9 @@ namespace IdentityTest
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
-            app.UseAuthentication();            
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
